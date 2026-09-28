@@ -41,6 +41,8 @@ option 1).
   same and also updates the stratum servers listed, one `user@private_ip` per line,
   in `$STORAGE_ROOT/yiimp/.remote_stratums.conf` (SSH asks for each password
   unless you use SSH keys).
+* The `verthash` stratum (Vertcoin) needs its 1.2 GB data file. Create it once on each stratum
+  server: `cd $STORAGE_ROOT/yiimp/site/stratum && ./verthash_gen verthash.dat`.
 
 ## Algos with their own stratum protocols
 
@@ -77,3 +79,22 @@ extra steps on the coin daemons.
   blocknotify-dcr -stratum 127.0.0.1:3252 -coinid <id> -rpcuser <user> -rpcpass <pass> -rpccert <dcrd rpc.cert>
   ```
 - Keep the stratum difficulty at 1 or more.
+
+### RandomX (randomx, Monero)
+
+- Coin: XMR. Port: 9701. Miners use the xmrig protocol (xmrig, XMRig-proxy).
+- It is not started at boot. Start it with `stratum start randomx`.
+- **Resources:**
+  - Memory: up to about 800 MB of RandomX caches.
+  - CPU: each share costs about 20-40 ms of one core.
+- **monerod:**
+  - Run it with `--rpc-login <user>:<pass>`.
+  - Also pass `--block-notify '/usr/bin/blocknotify 127.0.0.1:9701 <coin id> %s'`.
+- **monero-wallet-rpc:**
+  - It runs the pool wallet. That wallet's address must be the coin's master wallet.
+  - Payouts are sent from it with `transfer_split`.
+- **Coin setup:**
+  - Set the coin's *RPC Type* to `XMR`.
+  - Add the wallet to `serverconfig.php`: `$configWalletRPC['XMR'] = 'host:port:user:pass';`. Without that line it is expected on the daemon host at RPC port + 1.
+- **Testing:** payouts have been tested only once, on a private test network.
+- To connect a different stratum program (for algos this stratum can't handle), see [docs/BRIDGE.md](https://github.com/mygiglifeinc-glitch/yiimp/blob/next/docs/BRIDGE.md) in the YiiMP source.
