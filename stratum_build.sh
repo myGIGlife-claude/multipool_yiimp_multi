@@ -48,6 +48,11 @@ function mp_build_stratum {
 	sudo mkdir -p "$site/config"
 	sudo cp -a "$src/stratum/config.sample/." "$site/config"
 	sudo cp "$src/stratum/stratum" "$site"
+	# Generator for the Vertcoin verthash.dat the verthash stratum needs (1.2 GB,
+	# only created when you want to mine Vertcoin): cd $site && ./verthash_gen verthash.dat
+	hide_output sudo make -C "$src/stratum" verthash_gen
+	sudo cp "$src/stratum/verthash_gen" "$site"
+	sudo sed -i "s|^verthash_datafile = .*|verthash_datafile = $(sed_escape "$site/verthash.dat")|" "$site/config/verthash.conf"
 	sudo cp "$src/blocknotify/blocknotify" "$site"
 	sudo install -m 0755 "$src/blocknotify/blocknotify" /usr/bin/blocknotify
 

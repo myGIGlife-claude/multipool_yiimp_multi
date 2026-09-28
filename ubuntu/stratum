@@ -17,18 +17,23 @@ declare -A ALGOS=(
 	[bitcore]=bitcore [exosis]=exosis [c11]=c11 [deep]=deep [x11]=x11 [x11evo]=x11evo [x12]=x12
 	[x13]=x13 [x15]=x15 [x16r]=x16r [x16s]=x16s [x17]=x17 [x22i]=x22i [aergo]=aergo [xevan]=xevan
 	[hmq1725]=hmq1725 [nist5]=nist5 [x14]=x14 [quark]=quark [whirlpool]=whirlpool
-	[neoscrypt]=neoscrypt [argon2]=argon2 [argon2ddyn]=argon2ddyn [scryptn]=scryptn [allium]=allium
+	[neoscrypt]=neo [argon2ddyn]=argon2d-dyn [scryptn]=scryptn [allium]=allium
 	[lbk3]=lbk3 [lyra2]=lyra2 [lyra2v2]=lyra2v2 [lyra2z]=lyra2z [jha]=jha [qubit]=qubit [zr5]=zr5
-	[skein]=skein [sib]=sib [keccak]=keccak [keccakc]=keccakc [hex]=hex [skein2]=skein2 [dmdgr]=dmdgr
-	[myrgr]=myrgr [blake]=blake [blakecoin]=blakecoin [decred]=decred [vanilla]=vanilla
+	[skein]=skein [sib]=sib [keccak]=keccak [keccakc]=keccakc [hex]=hex [skein2]=skein2 [dmdgr]=dmd-gr
+	[myrgr]=myr-gr [blake]=blake [blakecoin]=blakecoin [decred]=decred [vanilla]=vanilla
 	[blake2s]=blake2s [penta]=penta [rainforest]=rainforest [luffa]=luffa [m7m]=m7m [veltor]=veltor
 	[velvet]=velvet [vitalium]=vitalium [yescrypt]=yescrypt [yescryptR16]=yescryptR16
 	[yescryptR32]=yescryptR32 [bastion]=bastion [hsr]=hsr [phi]=phi [phi2]=phi2 [polytimos]=polytimos
 	[skunk]=skunk [tribus]=tribus [a5a]=a5a [x16rv2]=x16rv2
 )
 
+# Config file for a screen name: the name itself unless mapped above.
+function stratum_config {
+	echo "${ALGOS[$1]:-$1}"
+}
+
 function stratum_start {
-	screen -dmS "$1" bash "$STRATUM_DIR/run.sh" "${ALGOS[$1]}"
+	screen -dmS "$1" bash "$STRATUM_DIR/run.sh" "$(stratum_config "$1")"
 }
 
 function stratum_stop {
@@ -49,7 +54,7 @@ esac
 shift
 
 for name; do
-	if [ -n "${ALGOS[$name]:-}" ]; then
+	if [[ "$name" =~ ^[A-Za-z0-9_-]+$ ]] && [ -f "$STRATUM_DIR/config/$(stratum_config "$name").conf" ]; then
 		case "$cmd" in
 			start) stratum_start "$name" ;;
 			stop) stratum_stop "$name" ;;
