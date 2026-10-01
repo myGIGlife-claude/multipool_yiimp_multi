@@ -27,7 +27,7 @@ MULTIPOOL_DEFAULT_PHP_VERSION="8.3"
 
 # Base URL for the MultiPool GitHub repositories. Override with
 # MULTIPOOL_GITHUB=https://github.com/<you> to install from a fork.
-MULTIPOOL_GITHUB="${MULTIPOOL_GITHUB:-https://github.com/mygiglifeinc-glitch}"
+MULTIPOOL_GITHUB="${MULTIPOOL_GITHUB:-https://github.com/myGIGlife-claude}"
 
 # Draw a spinner while the process with the given PID is running.
 function spinner {

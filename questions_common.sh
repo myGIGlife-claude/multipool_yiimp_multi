@@ -85,6 +85,6 @@ function guess_client_ip {
 # a fork. Unless you do some serious modifications this installer will not
 # work with any other repo of yiimp!
 function set_yiimp_repo {
-	YiiMPRepo=${YIIMP_REPO:-${YiiMPRepo:-${MULTIPOOL_GITHUB:-https://github.com/mygiglifeinc-glitch}/yiimp.git}}
+	YiiMPRepo=${YIIMP_REPO:-${YiiMPRepo:-${MULTIPOOL_GITHUB:-https://github.com/myGIGlife-claude}/yiimp.git}}
 	YiiMPBranch=${YIIMP_BRANCH:-${YiiMPBranch:-}}
 }
