@@ -1,7 +1,7 @@
 # multipool_yiimp_multi
 Installation files for YiiMP multi server
 
-#### These files do nothing on their own please go to https://github.com/mygiglifeinc-glitch/Multi-Pool-Installer
+#### These files do nothing on their own please go to https://github.com/myGIGlife-claude/Multi-Pool-Installer
 
 Supported operating systems: Ubuntu 22.04, 24.04 and 26.04 LTS (x86_64), on every server of the pool.
 
@@ -30,7 +30,7 @@ option 1).
 
 | Variable | Default | Purpose |
 |:--|:--|:--|
-| `YIIMP_REPO` | `https://github.com/mygiglifeinc-glitch/yiimp.git` | YiiMP source repository |
+| `YIIMP_REPO` | `https://github.com/myGIGlife-claude/yiimp.git` | YiiMP source repository |
 | `YIIMP_BRANCH` | repository default | YiiMP branch or tag |
 | `DISABLE_FIREWALL` | unset | Set to `1` to skip the ufw configuration |
 
@@ -97,4 +97,4 @@ extra steps on the coin daemons.
   - Set the coin's *RPC Type* to `XMR`.
   - Add the wallet to `serverconfig.php`: `$configWalletRPC['XMR'] = 'host:port:user:pass';`. Without that line it is expected on the daemon host at RPC port + 1.
 - **Testing:** payouts have been tested only once, on a private test network.
-- To connect a different stratum program (for algos this stratum can't handle), see [docs/BRIDGE.md](https://github.com/mygiglifeinc-glitch/yiimp/blob/next/docs/BRIDGE.md) in the YiiMP source.
+- To connect a different stratum program (for algos this stratum can't handle), see [docs/BRIDGE.md](https://github.com/myGIGlife-claude/yiimp/blob/next/docs/BRIDGE.md) in the YiiMP source.

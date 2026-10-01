@@ -106,7 +106,7 @@ EOF
 # Uses YiiMPRepo/YiiMPBranch from .yiimp.conf (set from the YIIMP_REPO and
 # YIIMP_BRANCH environment variables when the questions were answered).
 function mp_clone_yiimp {
-	local repo=${YiiMPRepo:-${MULTIPOOL_GITHUB:-https://github.com/mygiglifeinc-glitch}/yiimp.git}
+	local repo=${YiiMPRepo:-${MULTIPOOL_GITHUB:-https://github.com/myGIGlife-claude}/yiimp.git}
 	local branch=${YiiMPBranch:-}
 	local dest="$STORAGE_ROOT/yiimp/yiimp_setup/yiimp"
 
