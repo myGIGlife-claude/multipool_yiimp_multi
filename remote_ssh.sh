@@ -205,8 +205,8 @@ function mp_remote_install_server {
 	mp_remote_sudo_setup "$target" "$pass" || mp_abort "Unable to configure sudo on the ${role} server."
 	mp_stage_create "$target" || mp_abort "Unable to create a staging directory on the ${role} server."
 
-	for f in "$MP_REPO_DIR/required_remote_files/functions.sh" \
-		"$MP_REPO_DIR/required_remote_files/editconf.py" \
+	# The helpers multipool_setup installed on this server, so every server runs the same copy.
+	for f in /etc/functions.sh /usr/local/bin/editconf.py \
 		"$MP_REPO_DIR/system_base.sh" \
 		"$MP_REPO_DIR/create_user_remote.sh" \
 		"${files_ref[@]}"; do

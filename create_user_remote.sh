@@ -12,7 +12,7 @@
 
 MP_STAGE=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
-# Always install the helper functions shipped with this installer, older
+# Always install the helper functions copied from the DB server, older
 # copies lack functions the remote scripts rely on.
 sudo install -m 0644 -o root -g root "$MP_STAGE/functions.sh" /etc/functions.sh
 sudo install -m 0755 -o root -g root "$MP_STAGE/editconf.py" /usr/local/bin/editconf.py
