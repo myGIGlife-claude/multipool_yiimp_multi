@@ -5,6 +5,10 @@ Installation files for YiiMP multi server
 
 Supported operating systems: Ubuntu 22.04, 24.04 and 26.04 LTS (x86_64), on every server of the pool.
 
+The web server gets PHP 8.3 from the [Ondrej PHP PPA](https://launchpad.net/~ondrej/+archive/ubuntu/php)
+(`PHP_VERSION` in `/etc/multipool.conf`). Ubuntu 26.04, which the PPA does not support yet, gets
+Ubuntu's own PHP 8.5.
+
 ## How it works
 
 The installer is started on the server that will host the database. It asks all
@@ -43,6 +47,8 @@ option 1).
   same and also updates the stratum servers listed, one `user@private_ip` per line,
   in `$STORAGE_ROOT/yiimp/.remote_stratums.conf` (SSH asks for each password
   unless you use SSH keys).
+* `max_cons_per_ip` in the `[STRATUM]` section of an algo's `.conf` limits the connections from
+  one IP address (IPv6: per /64). The default `0` means no limit.
 * The `verthash` stratum (Vertcoin) needs its 1.2 GB data file. Create it once on each stratum
   server: `cd $STORAGE_ROOT/yiimp/site/stratum && ./verthash_gen verthash.dat`.
 
