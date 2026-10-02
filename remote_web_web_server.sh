@@ -67,9 +67,7 @@ internalrpcip="${WebInternalIP%.*}.$((last_octet & 192))/26"
 
 echo -e " Adding the cryptopool.builders flare to YiiMP...$COL_RESET"
 domain_sed=$(sed_escape "$DomainName")
-sudo sed -i "s|YII MINING POOLS|${domain_sed} Mining Pool|g" "$site/web/yaamp/modules/site/index.php"
 sudo sed -i "s|domain|${domain_sed}|g" "$site/web/yaamp/modules/site/index.php"
-sudo sed -i 's/Notes/AddNodes/g' "$site/web/yaamp/models/db_coinsModel.php"
 serverconfig_sed=$(sed_escape "${site}/configuration/serverconfig.php")
 for f in web/index.php web/runconsole.php web/run.php web/yaamp/yiic.php web/yaamp/modules/thread/CronjobController.php; do
 	sudo sed -i "s|serverconfig.php|${serverconfig_sed}|g" "$site/$f"

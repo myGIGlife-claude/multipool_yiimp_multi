@@ -37,6 +37,8 @@ option 1).
 ## Stratum servers
 
 * `stratum start|stop|restart algo` starts or stops the stratum of an algo.
+* Without dedicated coin ports, `stratum boot` starts the algo stratums at boot (cron),
+  one by one while at least 256 MB of memory is free (about 14 MB each).
 * `addport` creates a dedicated port stratum for a coin. `addport_multi` does the
   same and also updates the stratum servers listed, one `user@private_ip` per line,
   in `$STORAGE_ROOT/yiimp/.remote_stratums.conf` (SSH asks for each password

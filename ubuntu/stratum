@@ -5,6 +5,7 @@
 #
 # Start/stop the stratum for an algo:
 #   stratum start|stop|restart algo [algo...]
+#   stratum boot   (at boot: the algos below, as many as the memory allows)
 #####################################################
 
 source /etc/multipool.conf
@@ -40,14 +41,37 @@ function stratum_stop {
 	screen -X -S "$1" quit
 }
 
+# Each stratum takes about 14 MB: start them one by one and stop while this much
+# memory is still available, so a small server is not run out of memory.
+BOOT_RESERVE_MB=256
+
+# ponytail: MemAvailable lags a just-started stratum by a little, the reserve covers it
+function stratum_boot {
+	local name avail
+	for name in $(printf '%s\n' "${!ALGOS[@]}" | sort); do
+		[ -f "$STRATUM_DIR/config/$(stratum_config "$name").conf" ] || continue
+		avail=$(awk '/^MemAvailable:/ { print int($2 / 1024) }' /proc/meminfo)
+		if [ "${avail:-0}" -lt "$BOOT_RESERVE_MB" ]; then
+			echo "Only ${avail:-0} MB of memory available, the other algo stratums were not started."
+			return
+		fi
+		stratum_start "$name"
+		sleep 1
+	done
+}
+
 function startstop_service {
 	sudo systemctl "$1" "$2"
 }
 
 case "${1:-}" in
 	start | stop | restart) cmd=$1 ;;
+	boot)
+		stratum_boot
+		exit 0
+		;;
 	*)
-		echo "usage: $0 [start|stop|restart] algo"
+		echo "usage: $0 [start|stop|restart] algo | boot"
 		exit 1
 		;;
 esac
