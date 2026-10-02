@@ -95,4 +95,10 @@ EOF
 	sudo chmod 0750 "$site" "$site/config"
 	sudo find "$site/config" -maxdepth 1 -name '*.conf' -exec chmod 0640 {} +
 	echo -e "$GREEN Done...$COL_RESET"
+
+	# Without dedicated coin ports the miners use the per-algo stratums: start them at
+	# boot, like the single server installer (with coin ports addport adds one per coin).
+	if ! is_yes "${CoinPort:-no}"; then
+		(crontab -l 2> /dev/null | grep -vF "/usr/bin/stratum boot"; echo "@reboot sleep 20 && /usr/bin/stratum boot") | crontab -
+	fi
 }
